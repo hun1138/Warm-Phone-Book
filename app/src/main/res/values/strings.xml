@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">Warm_Phone_Book</string>
-</resources>
+    <string name="OnwerName">장 광 남</string>
+    <string name="OnwerNumber">010 2229 3433</string>
+    </resources>
