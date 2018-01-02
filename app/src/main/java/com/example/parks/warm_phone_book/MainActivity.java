@@ -16,10 +16,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         minMemberList = (LinearLayout)findViewById(R.id.minMemberListId);
+        addMinMemeberLayout();
     }
 
     private void addMinMemeberLayout() { // add min_member_layout
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 20; i++) {
             LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
