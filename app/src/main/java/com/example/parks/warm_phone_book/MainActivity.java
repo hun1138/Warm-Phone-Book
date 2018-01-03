@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         minMemberList = (LinearLayout)findViewById(R.id.minMemberListId);
         addMinMemeberLayout();
 
-        list=(ListView)findViewById(R.id.listView1);
+        //list=(ListView)findViewById(R.id.listView1);
         //ll = (LinearLayout)findViewById(R.id.LinearLayout1);
-        loadBtn = (Button)findViewById(R.id.ContactButton);
+        //loadBtn = (Button)findViewById(R.id.ContactButton);
         storeContacts = new ArrayList<String>();
         CheckPermission();
 
