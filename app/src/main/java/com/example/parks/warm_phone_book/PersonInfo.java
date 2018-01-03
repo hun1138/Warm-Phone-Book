@@ -1,10 +1,12 @@
 package com.example.parks.warm_phone_book;
 
+import java.io.Serializable;
+
 /**
  * Created by Parks on 2018-01-02.
  */
 
-public class PersonInfo {
+public class PersonInfo implements Serializable{
     private int id;
     private String name;
     private String phoneNumber;

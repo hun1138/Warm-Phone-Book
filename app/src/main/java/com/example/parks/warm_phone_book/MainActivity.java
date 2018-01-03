@@ -2,6 +2,7 @@ package com.example.parks.warm_phone_book;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
@@ -16,14 +17,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText editName;
+    private EditText editNumber;
+    private Button saveButton;
 
     private LinearLayout minMemberList; // min member layout
 
@@ -43,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
         //PersonInfo 데이터
         personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
+
+        editName = (EditText)findViewById(R.id.editName);
+        editNumber = (EditText)findViewById(R.id.editNumber);
+        saveButton = (Button)findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nameTemp = editName.getText().toString();
+                String numberTemp = editNumber.getText().toString();
+                //save data
+            }
+        });
     }
 
     private void init() { // 초기화
@@ -106,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void makeMinMemeberLayout() { // add min_member_layout
         for(int i = 0; i < personInfos.size(); i++) {
-            PersonInfo personInfoTemp = personInfos.get(i);
+            final PersonInfo personInfoTemp = personInfos.get(i);
 
             LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
@@ -127,7 +147,13 @@ public class MainActivity extends AppCompatActivity {
             linearLayoutTemp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //
+                    try {
+                        Intent memberLayoutIntent = new Intent(MainActivity.this, MemberLayoutActivity.class);
+                        memberLayoutIntent.putExtra("PersonInfo", (Serializable) personInfoTemp);
+                        startActivity(memberLayoutIntent);
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             minMemberList.addView(linearLayoutTemp); // index 0
