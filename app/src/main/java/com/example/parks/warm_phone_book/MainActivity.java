@@ -1,5 +1,6 @@
 package com.example.parks.warm_phone_book;
 
+<<<<<<< HEAD
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -40,12 +41,24 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
+=======
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+
+public class MainActivity extends AppCompatActivity {
+
+    private LinearLayout minMemberList;
+>>>>>>> 64aa19224906d6dbb3580ecfea388a9c9f1002f6
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         list=(ListView)findViewById(R.id.listView1);
         //ll = (LinearLayout)findViewById(R.id.LinearLayout1);
         loadBtn = (Button)findViewById(R.id.ContactButton);
@@ -153,6 +166,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     */
+=======
+        minMemberList = (LinearLayout)findViewById(R.id.minMemberListId);
+        addMinMemeberLayout();
+    }
+
+    private void addMinMemeberLayout() { // add min_member_layout
+        for(int i = 0; i < 20; i++) {
+            LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(20, 20, 20,20);
+            linearLayoutTemp.setLayoutParams(layoutParams);
+            minMemberList.addView(linearLayoutTemp, 0);
+        }
+    }
+>>>>>>> 64aa19224906d6dbb3580ecfea388a9c9f1002f6
 }
 
 

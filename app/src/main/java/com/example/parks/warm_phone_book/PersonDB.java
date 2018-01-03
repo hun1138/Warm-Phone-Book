@@ -14,6 +14,6 @@ public class PersonDB {
     private static final int DATABASE_VERSION = 1;
     public static SQLiteDatabase sqldb;
 
-  
+
 
 }
