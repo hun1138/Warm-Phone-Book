@@ -1,12 +1,17 @@
 package com.example.parks.warm_phone_book;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
 
+
+    private int rawContactInserIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nameTemp = editName.getText().toString();
                 String numberTemp = editNumber.getText().toString();
-                //save data
+                AddContact(nameTemp,numberTemp);
             }
         });
     }
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         else{ // 데이터 화면에 뿌려주기(초기화)
             init();
         }
+
     }
 
     @Override
@@ -158,6 +166,56 @@ public class MainActivity extends AppCompatActivity {
             });
             minMemberList.addView(linearLayoutTemp); // index 0
         }
+    }
+
+    private void AddContact(String name, String phone){
+        /*ArrayList<ContentProviderOperation> cList = new ArrayList<>();
+
+        cList.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+
+        cList.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, "YES".toString())
+                .build()); //이름
+
+        cList.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "101001".toString()) //전화번호
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build()); // 번호 타입 핸드폰
+            //save data
+
+        cList.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, "123@xyz.com")
+                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+                .build());
+
+        //Log.i("TAG", "Selected account : " + name + " - "  + phone);
+
+        try{
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, cList);//주소록 추가
+            //cList.clear(); //list init
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }*/
+
+        Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
+        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, phone).putExtra(ContactsContract.Intents.Insert.PHONE_TYPE,
+                ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).putExtra(ContactsContract.Intents.Insert.NAME,name);
+
+        startActivity(intent);
+
     }
 }
 
