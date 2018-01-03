@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -140,10 +141,12 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(20, 20, 20,20);
+            //linearLayoutTemp.setPadding(20, 20, 20, 20);
             linearLayoutTemp.setLayoutParams(layoutParams);
 
             TextView minNameText = (TextView)linearLayoutTemp.findViewById(R.id.minNameId);
             minNameText.setText(personInfoTemp.getName());
+            minNameText.setTypeface(Typeface.createFromAsset(getAssets(), "SDMiSaeng.ttf"));
 
             TextView minPhoneNumberText = (TextView)linearLayoutTemp.findViewById(R.id.minPhoneNumberId);
             minPhoneNumberText.setText(personInfoTemp.getPhoneNumber());

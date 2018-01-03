@@ -12,7 +12,8 @@
             android:id="@+id/minNameId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장광남"/>
+            android:text="장광남"
+            style="@style/nameFontStyle"/>
         <TextView
             android:id="@+id/minPhoneNumberId"
             android:layout_width="wrap_content"
