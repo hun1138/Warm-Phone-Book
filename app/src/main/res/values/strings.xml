@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">Warm_Phone_Book</string>
+    <string name="action_setting">Setting</string>
+    <string name="btitle">Load Contacts</string>
     <string name="OnwerName">장 광 남</string>
     <string name="OnwerNumber">010 2229 3433</string>
+    <string name="ContactButton">연락처</string>
+    <string name="ReturnMainMenu">메인으로</string>
     </resources>
