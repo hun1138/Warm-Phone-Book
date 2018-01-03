@@ -25,19 +25,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView list;
-    LinearLayout ll;
-    Button loadBtn;
+    private LinearLayout minMemberList; // min member layout
 
-    ArrayList<String> storeContacts;
-    ArrayList<PersonInfo> personInfos;
-    ArrayAdapter<String> arrayAdapter;
-    Cursor cursor;
-    String name, PhoneNumber;
+    ArrayList<PersonInfo> personInfos; // person data
+    // Cursor cursor;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
-    private LinearLayout minMemberList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,34 +40,16 @@ public class MainActivity extends AppCompatActivity {
 
         minMemberList = (LinearLayout)findViewById(R.id.minMemberListId);
 
-        //list=(ListView)findViewById(R.id.listView1);
-        //ll = (LinearLayout)findViewById(R.id.LinearLayout1);
-        loadBtn = (Button)findViewById(R.id.ContactButton);
-        storeContacts = new ArrayList<String>();
-
         //PersonInfo 데이터
         personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
+    }
 
-
-        loadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GetContactIntoArrayList();
-
-                // 화면에 띄운다
-                addMinMemeberLayout();
-                /*
-                arrayAdapter = new ArrayAdapter<String>(
-                        MainActivity.this,
-                        R.layout.test,
-                        R.id.textView, storeContacts
-                );
-
-                list.setAdapter(arrayAdapter);
-                */
-            }
-        });
+    private void init() { // 초기화
+        Log.i("Phone_Number", "Into");
+        GetContactIntoArrayList();
+        makeMinMemeberLayout();
+        Log.i("Phone_Number", "End");
     }
 
     private void CheckPermission(){
@@ -89,11 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
             }
         }
-        else{
-            Log.i("Phone_Number", "Into");
-            //LoadContactsAyscn lca = new LoadContactsAyscn();
-            //lca.execute();
-            Log.i("Phone_Number", "End");
+        else{ // 데이터 화면에 뿌려주기(초기화)
+            init();
         }
     }
 
@@ -104,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i("Phone_Number", "permission OK");
                     Toast.makeText(this, "permission OK", Toast.LENGTH_LONG).show();
+
+                    // 데이터 화면에 뿌려주기(초기화)
+                    init();
                 } else {
                     Toast.makeText(this, "need permission", Toast.LENGTH_LONG).show();
                 }
@@ -112,23 +88,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void GetContactIntoArrayList(){
-        cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
+        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
         while(cursor.moveToNext()){
-            name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            PhoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            storeContacts.add(name + " " + ":" + " " + PhoneNumber);
+            String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
             // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
-            PersonInfo personInfoTemp = new PersonInfo(0, name=name, PhoneNumber=PhoneNumber, "", "", "", "", "", "");
+            //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
+            PersonInfo personInfoTemp = new PersonInfo();
+            personInfoTemp.setName(name);
+            personInfoTemp.setPhoneNumber(phoneNumber);
             personInfos.add(personInfoTemp);
-            //*****
         }
         cursor.close();
     }
 
-    private void addMinMemeberLayout() { // add min_member_layout
+    private void makeMinMemeberLayout() { // add min_member_layout
         for(int i = 0; i < personInfos.size(); i++) {
             PersonInfo personInfoTemp = personInfos.get(i);
 
@@ -148,7 +124,13 @@ public class MainActivity extends AppCompatActivity {
             TextView minDayCountText = (TextView)linearLayoutTemp.findViewById(R.id.minDayCountId);
             minDayCountText.setText("");
             */
-            minMemberList.addView(linearLayoutTemp, 0);
+            linearLayoutTemp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //
+                }
+            });
+            minMemberList.addView(linearLayoutTemp); // index 0
         }
     }
 }

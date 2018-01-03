@@ -16,12 +16,14 @@
         android:layout_margin="5dp"
         android:background="#444">
     </TableRow>
+    <!--
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ContactButton"
         android:layout_gravity="center"
         android:text="@string/ContactButton"/>
+        -->
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -38,57 +40,5 @@
             android:orientation="vertical">
         </LinearLayout>
     </ScrollView>
-
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary">
-
-            <ImageView
-                android:layout_width="125dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/main_image"/>
-
-            <LinearLayout
-                android:id="@+id/LinearLayout1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Button
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/ContactButton"
-                    android:text="@string/ContactButton" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:divider="#00ffff"
-            android:dividerHeight="2dp">
-        </ListView>
-    </LinearLayout>
-
-
-<<<<<<< HEAD
-</android.support.constraint.ConstraintLayout>
-=======
-        </LinearLayout>
-    </LinearLayout>
-    -->
 </LinearLayout>
 
