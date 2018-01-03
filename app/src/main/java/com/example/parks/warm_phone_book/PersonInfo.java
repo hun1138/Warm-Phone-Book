@@ -7,6 +7,7 @@ package com.example.parks.warm_phone_book;
 public class PersonInfo {
     private int id;
     private String name;
+    private String phoneNumber;
     private String address;
     private String email;
     private String anniversary;
@@ -14,9 +15,10 @@ public class PersonInfo {
     private String memo;
     private String callDday;
 
-    PersonInfo(int id, String name, String address, String email, String anniversary, String calendar, String memo, String callDday){
+    PersonInfo(int id, String name, String phoneNumber, String address, String email, String anniversary, String calendar, String memo, String callDday){
         this.id =id;
         this.name = name;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
         this.anniversary = anniversary;
@@ -29,6 +31,8 @@ public class PersonInfo {
     public void setId(int id) {this.id = id;}
     public String getName() {return this.name;}
     public void setName(String name) {this.name = name;}
+    public String getPhoneNumber() {return this.phoneNumber;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
     public String getAddress() {return this.address;}
     public void setAddress(String address) {this.address = address;}
     public String getEmail() {return this.email;}
