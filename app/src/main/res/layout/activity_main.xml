@@ -16,6 +16,18 @@
         android:layout_margin="5dp"
         android:background="#444">
     </TableRow>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ContactButton"
+        android:layout_gravity="center"
+        android:text="@string/ContactButton"/>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:background="#444">
+    </TableRow>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
