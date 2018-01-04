@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nameTemp = editName.getText().toString();
                 String numberTemp = editNumber.getText().toString();
-                AddContact(nameTemp,numberTemp);
+                AddContact();
             }
         });
     }
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Phone_Number","shoudShowRequestPermission");
                 Toast.makeText(this, "need permission", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
-
             }
             else{
                 Log.i("Phone_Number", "requestPermission");
@@ -171,8 +170,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void AddContact(String name, String phone){
-        /*ArrayList<ContentProviderOperation> cList = new ArrayList<>();
+    private void AddContact(){
+        Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
+        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        startActivity(intent);
+    }
+
+    private void AddContactsTest(PersonInfo info)
+    {
+        ArrayList<ContentProviderOperation> cList = new ArrayList<>();
 
         cList.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
@@ -182,13 +188,13 @@ public class MainActivity extends AppCompatActivity {
         cList.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, "YES".toString())
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, info.getName())
                 .build()); //이름
 
         cList.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "101001".toString()) //전화번호
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, info.getPhoneNumber()) //전화번호
                 .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                 .build()); // 번호 타입 핸드폰
             //save data
@@ -196,29 +202,18 @@ public class MainActivity extends AppCompatActivity {
         cList.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
                 .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, "123@xyz.com")
+                .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, info.getEmail())
                 .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
                 .build());
 
-        //Log.i("TAG", "Selected account : " + name + " - "  + phone);
-
         try{
-            getContentResolver().applyBatch(ContactsContract.AUTHORITY, cList);//주소록 추가
-            //cList.clear(); //list init
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, cList);
+
         }catch (RemoteException e){
             e.printStackTrace();
         }catch (OperationApplicationException e) {
             e.printStackTrace();
-        }*/
-
-        Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
-        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-
-        intent.putExtra(ContactsContract.Intents.Insert.PHONE, phone).putExtra(ContactsContract.Intents.Insert.PHONE_TYPE,
-                ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).putExtra(ContactsContract.Intents.Insert.NAME,name);
-
-        startActivity(intent);
-
+        }
     }
 }
 
