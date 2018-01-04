@@ -10,6 +10,7 @@ import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         else{ // 데이터 화면에 뿌려주기(초기화)
             init();
         }
-
     }
 
     @Override
@@ -161,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
                         Intent memberLayoutIntent = new Intent(MainActivity.this, MemberLayoutActivity.class);
                         memberLayoutIntent.putExtra("PersonInfo", (Serializable) personInfoTemp);
                         startActivity(memberLayoutIntent);
+
+                        //클릭시 다이얼로 전화번호 전송하는 코드 추후에 버튼생성시 넣을것.
+                        //ClickCall(personInfoTemp.getPhoneNumber());
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -174,6 +177,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         startActivity(intent);
+    }
+
+    private void ClickCall(String phoneNumber){
+        //전화번호 가지고 있는 String을 보내는 함수 ?
+        Intent callintent =new Intent(Intent.ACTION_DIAL);
+        callintent.setData(Uri.parse("tel:"+phoneNumber));
+        try{
+            startActivity(callintent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     private void AddContactsTest(PersonInfo info)
