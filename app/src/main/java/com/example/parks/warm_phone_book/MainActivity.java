@@ -22,12 +22,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-=======
-import android.telecom.Call;
->>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -77,24 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         //PersonInfo 데이터
         personInfos = new ArrayList<PersonInfo>();
-<<<<<<< HEAD
-
         //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         CheckPermission();
-=======
-        CheckPermission();
-        editName = (EditText) findViewById(R.id.editName);
-        editNumber = (EditText) findViewById(R.id.editNumber);
-        saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nameTemp = editName.getText().toString();
-                String numberTemp = editNumber.getText().toString();
-                AddContact();
-            }
-        });
->>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
     }
 
     private void init() { // 초기화
@@ -255,8 +233,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
-<<<<<<< HEAD
-=======
     }
 
     //메시지 창으로 이동-->
@@ -268,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
->>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
     }
 
     private void AddContactsTest(PersonInfo info)
