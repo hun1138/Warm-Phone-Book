@@ -15,13 +15,19 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+=======
+import android.telecom.Call;
+>>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +45,9 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.lang.reflect.Member;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,23 +60,41 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<PersonInfo> personInfos; // person data
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
-
+    private static final int REQUEST_EXTERNAL_STORAGE = 1; //0은 수락 , 1은 거절
+    //private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
+    private static String PERMISSION_READ_CONTACTS = Manifest.permission.READ_CONTACTS;
+    private static String PERMISSION_CALL_LOG = Manifest.permission.READ_CALL_LOG;
+    private static String[] PERMISSION_STORAGE = {PERMISSION_READ_CONTACTS, PERMISSION_CALL_LOG};
 
     private int rawContactInserIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        minMemberList = (LinearLayout)findViewById(R.id.minMemberListId);
+        minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
         //PersonInfo 데이터
         personInfos = new ArrayList<PersonInfo>();
+<<<<<<< HEAD
 
         //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         CheckPermission();
+=======
+        CheckPermission();
+        editName = (EditText) findViewById(R.id.editName);
+        editNumber = (EditText) findViewById(R.id.editNumber);
+        saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nameTemp = editName.getText().toString();
+                String numberTemp = editNumber.getText().toString();
+                AddContact();
+            }
+        });
+>>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
     }
 
     private void init() { // 초기화
@@ -90,20 +116,28 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
-    private void CheckPermission(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)){
-                Log.i("Phone_Number","shoudShowRequestPermission");
+    private void CheckPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
+                Log.i("Phone_Number", "shoudShowRequestPermission");
                 Toast.makeText(this, "need permission", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
-            }
-            else{
+            } else {
                 Log.i("Phone_Number", "requestPermission");
                 ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
             }
-        }
-        else{ // 데이터 화면에 뿌려주기(초기화)
+        } else { // 데이터 화면에 뿌려주기(초기화)
             init();
+        }
+    }
+
+    private void RequestPermission_CALL_LOG() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALL_LOG)) {
+                Toast.makeText(this, "need permission", Toast.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this, PERMISSION_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
         }
     }
 
@@ -125,17 +159,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void GetContactIntoArrayList(){
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
-        while(cursor.moveToNext()){
+    public void GetContactIntoArrayList() {
+        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        while (cursor.moveToNext()) {
+            int UserId = cursor.getInt((cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
+            Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
+            String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
+            Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
             // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
             //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
             PersonInfo personInfoTemp = new PersonInfo();
+            personInfoTemp.setId(UserId);
             personInfoTemp.setName(name);
             personInfoTemp.setPhoneNumber(phoneNumber);
+            //personInfos 에 dDay 넣기
+            try{
+                Cursor callCursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, CallLog.Calls.NUMBER + "=?",
+                        new String[]{String.valueOf(phoneNumber)}, "date DESC LIMIT 1");
+                while(callCursor != null && callCursor.moveToNext()){
+                    Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
+                    Date callDate = new Date(callTime);
+                    Log.i("date", phoneNumber + " : "  + callDate.toString());
+                    personInfoTemp.setCallDday(callDate.toString());
+                }
+                callCursor.close();
+            }
+            catch (SecurityException e){
+                RequestPermission_CALL_LOG();
+            }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
             personInfos.add(personInfoTemp);
         }
         cursor.close();
@@ -160,10 +216,10 @@ public class MainActivity extends AppCompatActivity {
             TextView minPhoneNumberText = (TextView)linearLayoutTemp.findViewById(R.id.minPhoneNumberId);
             minPhoneNumberText.setText(personInfoTemp.getPhoneNumber());
 
-            /*
+
             TextView minDayCountText = (TextView)linearLayoutTemp.findViewById(R.id.minDayCountId);
-            minDayCountText.setText("");
-            */
+            minDayCountText.setText(personInfoTemp.getCallDday());
+
             linearLayoutTemp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -174,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //클릭시 다이얼로 전화번호 전송하는 코드 추후에 버튼생성시 넣을것.
                         //ClickCall(personInfoTemp.getPhoneNumber());
+                        //ClickSendMeesage(personInfoTemp.getPhoneNumber());
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -198,6 +255,20 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+<<<<<<< HEAD
+=======
+    }
+
+    //메시지 창으로 이동-->
+    private void ClickSendMeesage(String phoneNumber){
+        Intent sendMessageintent = new Intent(Intent.ACTION_VIEW);
+        sendMessageintent.setData(Uri.parse("smsto:" + phoneNumber));
+        try{
+            startActivity(sendMessageintent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+>>>>>>> 67a6e9e46422ebbe56b576361d20a40d846b83fd
     }
 
     private void AddContactsTest(PersonInfo info)

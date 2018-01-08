@@ -10,7 +10,5 @@ import android.provider.BaseColumns;
  */
 
 public class PersonDB {
-
-
-
+    
 }
