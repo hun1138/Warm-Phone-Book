@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private static String PERMISSION_CALL_LOG = Manifest.permission.READ_CALL_LOG;
     private static String[] PERMISSION_STORAGE = {PERMISSION_READ_CONTACTS, PERMISSION_CALL_LOG};
 
-    private int rawContactInserIndex;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
         //PersonInfo 데이터
+        dbHelper = new DBHelper(this);
+
         personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
         editName = (EditText) findViewById(R.id.editName);
@@ -137,9 +139,10 @@ public class MainActivity extends AppCompatActivity {
             int UserId = cursor.getInt((cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
-            String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
-            Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
+            int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+            //Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
+            //String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
+            //Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
             // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
             //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
             PersonInfo personInfoTemp = new PersonInfo();
@@ -153,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 while(callCursor != null && callCursor.moveToNext()){
                     Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
                     Date callDate = new Date(callTime);
-                    Log.i("date", phoneNumber + " : "  + callDate.toString());
                     personInfoTemp.setCallDday(callDate.toString());
                 }
                 callCursor.close();
