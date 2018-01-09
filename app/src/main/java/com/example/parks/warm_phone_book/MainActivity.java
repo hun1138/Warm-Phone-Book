@@ -2,6 +2,7 @@ package com.example.parks.warm_phone_book;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.Context;
@@ -18,18 +19,24 @@ import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.Call;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,14 +48,14 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editName;
-    private EditText editNumber;
-    private Button saveButton;
-
+    /*
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+*/
     private LinearLayout minMemberList; // min member layout
 
     ArrayList<PersonInfo> personInfos; // person data
-    // Cursor cursor;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1; //0은 수락 , 1은 거절
     //private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
@@ -62,7 +69,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+<<<<<<< HEAD
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
         //PersonInfo 데이터
@@ -74,13 +84,24 @@ public class MainActivity extends AppCompatActivity {
         editNumber = (EditText) findViewById(R.id.editNumber);
         saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
+=======
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+>>>>>>> b050f8da1cbb2d48d8716b979aba437780771407
             @Override
             public void onClick(View view) {
-                String nameTemp = editName.getText().toString();
-                String numberTemp = editNumber.getText().toString();
                 AddContact();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
+
+        minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
+
+        //PersonInfo 데이터
+        personInfos = new ArrayList<PersonInfo>();
+        //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        CheckPermission();
     }
 
     private void init() { // 초기화
@@ -88,6 +109,18 @@ public class MainActivity extends AppCompatActivity {
         GetContactIntoArrayList();
         makeMinMemeberLayout();
         Log.i("Phone_Number", "End");
+
+        /*
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        adapter = new PersonAdapter(personInfos, this);
+        recyclerView.setAdapter(adapter);
+        */
     }
 
     private void CheckPermission() {
@@ -176,15 +209,16 @@ public class MainActivity extends AppCompatActivity {
             final PersonInfo personInfoTemp = personInfos.get(i);
 
             LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(20, 20, 20,20);
+            layoutParams.setMargins(10, 10, 10,10);
             //linearLayoutTemp.setPadding(20, 20, 20, 20);
             linearLayoutTemp.setLayoutParams(layoutParams);
 
             TextView minNameText = (TextView)linearLayoutTemp.findViewById(R.id.minNameId);
             minNameText.setText(personInfoTemp.getName());
-            minNameText.setTypeface(Typeface.createFromAsset(getAssets(), "SDMiSaeng.ttf"));
+            //minNameText.setTypeface(Typeface.createFromAsset(getAssets(), "SDMiSaeng.ttf"));
 
             TextView minPhoneNumberText = (TextView)linearLayoutTemp.findViewById(R.id.minPhoneNumberId);
             minPhoneNumberText.setText(personInfoTemp.getPhoneNumber());
@@ -280,6 +314,38 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                //showDatePickerDialog();
+                return true;
+            case R.id.action_settings:
+                //receiptInformHandler.showAllLayout();
+                //TextView tv1= (TextView)findViewById(R.id.action_text);
+                //tv1.setText("전체");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
 
 

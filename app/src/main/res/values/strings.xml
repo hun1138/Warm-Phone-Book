@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <string name="app_name">Warm_Phone_Book</string>
-    <string name="action_setting">Setting</string>
+    <string name="app_name">연락처</string>
     <string name="btitle">Load Contacts</string>
     <string name="ContactButton">연락처</string>
     <string name="ReturnMainMenu">메인으로</string>
+
+    <string name="action_settings">설정</string>
+    <string name="action_search">검색</string>
+
+    <string name="search_hint">이름, 전화번호</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
 
 
