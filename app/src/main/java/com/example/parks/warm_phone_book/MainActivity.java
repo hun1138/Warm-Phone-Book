@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-<<<<<<< HEAD
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
         //PersonInfo 데이터
@@ -80,28 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
         personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
-        editName = (EditText) findViewById(R.id.editName);
-        editNumber = (EditText) findViewById(R.id.editNumber);
-        saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-=======
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
->>>>>>> b050f8da1cbb2d48d8716b979aba437780771407
             @Override
             public void onClick(View view) {
                 AddContact();
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
-
-        minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
-
-        //PersonInfo 데이터
-        personInfos = new ArrayList<PersonInfo>();
-        //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        CheckPermission();
     }
 
     private void init() { // 초기화
@@ -188,8 +174,10 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{String.valueOf(phoneNumber)}, "date DESC LIMIT 1");
                 while(callCursor != null && callCursor.moveToNext()){
                     Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
-                    Date callDate = new Date(callTime);
-                    personInfoTemp.setCallDday(callDate.toString());
+                    //Date callDate = new Date(callTime);
+                    //personInfoTemp.setCallDday(callDate.toString());
+                    String diffDay = diffOfDate(callTime);
+                    personInfoTemp.setCallDday(diffDay);
                 }
                 callCursor.close();
             }
@@ -197,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 RequestPermission_CALL_LOG();
             }
             catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
             personInfos.add(personInfoTemp);
@@ -346,6 +337,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public static String diffOfDate(Long callTime)throws Exception{
+        Long currentTime = System.currentTimeMillis();
+        Long diffTime = (currentTime - callTime) / (24*60*60*1000);
+        String msg = null;
+        if(diffTime < 1){
+            msg = "오늘";
+        }else if(diffTime > 365){
+            msg = "1년 넘음";
+        }else{
+            msg = diffTime.toString() + "일전";
+        }
+        return msg;
+    }
 }
 
 

@@ -116,6 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /*
     public void DebugPersonDB(){
         SQLiteDatabase db = this.getReadableDatabase();
         if(db.isOpen()){
@@ -129,5 +130,5 @@ public class DBHelper extends SQLiteOpenHelper {
         else{
             Log.i("DataBase", "closd Database");
         }
-    }
+    }*/
 }
