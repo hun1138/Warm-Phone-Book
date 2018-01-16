@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.parks.warm_phone_book.MemberLayoutActivity">
 
+
     <ImageView
         android:layout_width="125dp"
         android:layout_height="100dp"
@@ -19,24 +20,46 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="장광남"
-        android:textAlignment="center"
-        android:id="@+id/nameId"
-        style="@style/nameFontStyle"/>
-    <TextView
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="장광남"
+            android:textAlignment="center"
+            android:id="@+id/nameId"
+            style="@style/nameFontStyle"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="010-1111-1111"
+            android:textAlignment="center"
+            android:id="@+id/phoneNumberId"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2018/01/01 365일전"
+            android:textAlignment="center"
+            android:id="@+id/dayCountId"/>
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="010-1111-1111"
-        android:textAlignment="center"
-        android:id="@+id/phoneNumberId"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2018/01/01 365일전"
-        android:textAlignment="center"
-        android:id="@+id/dayCountId"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/callButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전화" />
+
+        <Button
+            android:id="@+id/textButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/callButton"
+            android:text="문자" />
+    </RelativeLayout>
 
 </LinearLayout>
