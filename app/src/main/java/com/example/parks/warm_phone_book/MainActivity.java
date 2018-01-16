@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private static String PERMISSION_CALL_LOG = Manifest.permission.READ_CALL_LOG;
     private static String[] PERMISSION_STORAGE = {PERMISSION_READ_CONTACTS, PERMISSION_CALL_LOG};
 
-    private int rawContactInserIndex;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
+
+        //PersonInfo 데이터
+        dbHelper = new DBHelper(this);
+
+        personInfos = new ArrayList<PersonInfo>();
+        CheckPermission();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,14 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
-
-
-        minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
-
-        //PersonInfo 데이터
-        personInfos = new ArrayList<PersonInfo>();
-        //recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        CheckPermission();
     }
 
     private void init() { // 초기화
@@ -158,9 +158,10 @@ public class MainActivity extends AppCompatActivity {
             int UserId = cursor.getInt((cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
-            String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
-            Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
+            int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+            //Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
+            //String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
+            //Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
             // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
             //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
             PersonInfo personInfoTemp = new PersonInfo();
@@ -173,9 +174,10 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{String.valueOf(phoneNumber)}, "date DESC LIMIT 1");
                 while(callCursor != null && callCursor.moveToNext()){
                     Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
-                    Date callDate = new Date(callTime);
-                    Log.i("date", phoneNumber + " : "  + callDate.toString());
-                    personInfoTemp.setCallDday(callDate.toString());
+                    //Date callDate = new Date(callTime);
+                    //personInfoTemp.setCallDday(callDate.toString());
+                    String diffDay = diffOfDate(callTime);
+                    personInfoTemp.setCallDday(diffDay);
                 }
                 callCursor.close();
             }
@@ -183,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 RequestPermission_CALL_LOG();
             }
             catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
             personInfos.add(personInfoTemp);
@@ -332,6 +337,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    public static String diffOfDate(Long callTime)throws Exception{
+        Long currentTime = System.currentTimeMillis();
+        Long diffTime = (currentTime - callTime) / (24*60*60*1000);
+        String msg = null;
+        if(diffTime < 1){
+            msg = "오늘";
+        }else if(diffTime > 365){
+            msg = "1년 넘음";
+        }else{
+            msg = diffTime.toString() + "일전";
+        }
+        return msg;
+    }
 }
 
 
