@@ -50,11 +50,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void addContact(PersonInfo personInfo){
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(KEY_DATE, personInfo.getCallDday());
         values.put(KEY_ANNIVERSARY, personInfo.getAnniversary());
-        values.put(KEY_CALENDAR, personInfo.getCalendar());
+        values.put(KEY_CALENDAR, new String("")); //ArrayList에 저장된값을 불러와서 띄워주는 역할을 함.
         values.put(KEY_MEMO, personInfo.getMemo());
         db.insert(TABLE_CONTACTS, null, values);
         db.close();
@@ -104,7 +103,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_MEMO, personInfo.getMemo());
-        values.put(KEY_CALENDAR, personInfo.getCalendar());
+        values.put(KEY_CALENDAR, new String(""));   //ArrayList 에서 불러온 값을 화면에 띄워주는역할
         values.put(KEY_ANNIVERSARY, personInfo.getAnniversary());
         values.put(KEY_DATE, personInfo.getCallDday());
         return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?", new String[] {String.valueOf(personInfo.getId())});
@@ -115,20 +114,4 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(TABLE_CONTACTS, KEY_ID + " = ?", new String[] {String.valueOf(personInfo.getId())});
         db.close();
     }
-
-    /*
-    public void DebugPersonDB(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        if(db.isOpen()){
-            Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CONTACTS, null);
-            while(c!=null && c.moveToNext()){
-                Log.i("PersonInfo", "ID : "+ c.getString(0) + ", NAME : " + c.getString(1) +
-                        ", PHONENUMBER : " + c.getString(2) + ", DATE : " + c.getString(3));
-            }
-            c.close();
-        }
-        else{
-            Log.i("DataBase", "closd Database");
-        }
-    }*/
 }

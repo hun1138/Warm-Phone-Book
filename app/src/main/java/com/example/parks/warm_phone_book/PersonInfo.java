@@ -1,6 +1,7 @@
 package com.example.parks.warm_phone_book;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Parks on 2018-01-02.
@@ -12,12 +13,13 @@ public class PersonInfo implements Serializable{
     private String phoneNumber;
     private String address;
     private String email;
-    private String anniversary;
-    private String calendar;
+    private String anniversary; //기념일
+    private ArrayList<String> calendar; //일정표
     private String memo;
     private String callDday;
+    private String recentCallDay;
 
-    PersonInfo(int id, String name, String phoneNumber, String address, String email, String anniversary, String calendar, String memo, String callDday){
+    PersonInfo(int id, String name, String phoneNumber, String address, String email, String anniversary, ArrayList<String> calendar, String memo, String callDday, String recentCallDay){
         this.id =id;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -27,6 +29,7 @@ public class PersonInfo implements Serializable{
         this.calendar = calendar;
         this.memo = memo;
         this.callDday = callDday;
+        this.recentCallDay = recentCallDay;
     }
 
     PersonInfo() {}
@@ -43,10 +46,12 @@ public class PersonInfo implements Serializable{
     public void setEmail(String email) {this.email = email;}
     public String getAnniversary() {return this.anniversary;}
     public void setAnniversary(String anniversary) {this.anniversary = anniversary;}
-    public String getCalendar() {return this.calendar;}
-    public void setCalendar(String calendar) {this.calendar = calendar;}
+    public ArrayList<String> getCalendar() {return this.calendar;}
+    public void setCalendar(ArrayList<String> calendar) {this.calendar = calendar;}
     public String getMemo() {return this.memo;}
     public void setMemo(String memo) {this.memo = memo;}
     public String getCallDday() {return this.callDday;}
     public void setCallDday(String callDday) {this.callDday = callDday;}
+    public String getRecentCallDay() {return this.recentCallDay;}
+    public void setRecentCallDay(String RecentCallDay){this.recentCallDay = RecentCallDay;}
 }

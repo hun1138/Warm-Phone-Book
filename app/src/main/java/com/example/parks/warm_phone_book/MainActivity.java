@@ -174,6 +174,20 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{String.valueOf(phoneNumber)}, "date DESC LIMIT 1");
                 while(callCursor != null && callCursor.moveToNext()){
                     Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
+
+                    String date = callTime.toString();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                    Date dDate = new Date(callTime);
+                    String today = format.format(dDate);
+                    personInfoTemp.setRecentCallDay(today);
+                    /*
+                    String dateString = callTime.toString();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dDate = new Date(format.parse(dateString).toString());
+                    Log.i("test", dDate.toString());
+                    */
+
                     //Date callDate = new Date(callTime);
                     //personInfoTemp.setCallDday(callDate.toString());
                     String diffDay = diffOfDate(callTime);
