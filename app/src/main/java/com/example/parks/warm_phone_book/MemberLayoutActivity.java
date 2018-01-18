@@ -17,7 +17,8 @@ public class MemberLayoutActivity extends AppCompatActivity {
 
     private TextView name;
     private TextView phoneNumber;
-    private TextView dayCount;
+    private TextView callDay;
+    private TextView recentCallDay;
 
     private Button callButton;
     private Button textButton;
@@ -34,7 +35,8 @@ public class MemberLayoutActivity extends AppCompatActivity {
 
         name = (TextView)findViewById(R.id.nameId);
         phoneNumber = (TextView)findViewById(R.id.phoneNumberId);
-        dayCount = (TextView)findViewById(R.id.dayCountId);
+        callDay = (TextView)findViewById(R.id.callDayId);
+        recentCallDay = (TextView)findViewById(R.id.recentCallDayId);
 
         eventLayout = (LinearLayout)findViewById(R.id.addEventLayoutId);
 
@@ -65,7 +67,8 @@ public class MemberLayoutActivity extends AppCompatActivity {
 
         name.setText(personInfoTemp.getName());
         phoneNumber.setText(personInfoTemp.getPhoneNumber());
-        dayCount.setText(personInfoTemp.getCallDday());
+        callDay.setText(personInfoTemp.getCallDday());
+        recentCallDay.setText();
     }
 
     private void addEventText() {
