@@ -68,7 +68,7 @@ public class MemberLayoutActivity extends AppCompatActivity {
         name.setText(personInfoTemp.getName());
         phoneNumber.setText(personInfoTemp.getPhoneNumber());
         callDay.setText(personInfoTemp.getCallDday());
-        recentCallDay.setText();
+        recentCallDay.setText(personInfoTemp.getRecentCallDay());
     }
 
     private void addEventText() {
