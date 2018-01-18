@@ -200,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
             final PersonInfo personInfoTemp = personInfos.get(i);
 
             LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout linearLayoutTemp = (LinearLayout)inflater.inflate(R.layout.min_member_layout, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(10, 10, 10,10);
@@ -242,28 +241,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         startActivity(intent);
-    }
-
-    private void ClickCall(String phoneNumber){
-        //전화번호 가지고 있는 String을 보내는 함수 ?
-        Intent callintent =new Intent(Intent.ACTION_DIAL);
-        callintent.setData(Uri.parse("tel:"+phoneNumber));
-        try{
-            startActivity(callintent);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    //메시지 창으로 이동-->
-    private void ClickSendMeesage(String phoneNumber){
-        Intent sendMessageintent = new Intent(Intent.ACTION_VIEW);
-        sendMessageintent.setData(Uri.parse("smsto:" + phoneNumber));
-        try{
-            startActivity(sendMessageintent);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void AddContactsTest(PersonInfo info)
