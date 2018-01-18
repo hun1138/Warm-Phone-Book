@@ -78,6 +78,8 @@ public class MemberLayoutActivity extends AppCompatActivity {
         linearLayoutTemp.setLayoutParams(layoutParams);
 
         TextView eventText = (TextView)linearLayoutTemp.findViewById(R.id.eventTextViewId);
+        //db
+
         eventText.setText("test");
         eventLayout.addView(linearLayoutTemp, 0); // index 0
     }
