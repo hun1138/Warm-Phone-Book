@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1079556193061",
+    "firebase_url": "https://warm-phone-book.firebaseio.com",
+    "project_id": "warm-phone-book",
+    "storage_bucket": "warm-phone-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079556193061:android:95597a97731bb65e",
+        "android_client_info": {
+          "package_name": "com.example.parks.warm_phone_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079556193061-tkn71uiqrpcmeka6rc2tl59qkhkkvnjj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parks.warm_phone_book",
+            "certificate_hash": "cd8694ef9281c7a6b489fb89e3b3a161cce35551"
+          }
+        },
+        {
+          "client_id": "1079556193061-lat52lq9v0hvvjmrfjrbaudrm2eu255j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRMTnoZQofbBb7WOsYaHa9v6Vojq1LduI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079556193061-lat52lq9v0hvvjmrfjrbaudrm2eu255j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

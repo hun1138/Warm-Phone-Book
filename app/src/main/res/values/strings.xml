@@ -10,6 +10,10 @@
 
     <string name="search_hint">이름, 전화번호</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-6935845403988953~3614177114</string>-->
 </resources>
 
 

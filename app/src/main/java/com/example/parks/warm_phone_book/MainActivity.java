@@ -40,6 +40,10 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.text.SimpleDateFormat;
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 */
+    private AdView mAdView;
+
     private LinearLayout minMemberList; // min member layout
 
     ArrayList<PersonInfo> personInfos; // person data
@@ -72,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        adViewStart();
+
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
         //PersonInfo 데이터
@@ -88,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+    }
+    private void adViewStart() {
+        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
+        mAdView = (AdView)findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
     }
 
     private void init() { // 초기화
