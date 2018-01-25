@@ -87,16 +87,18 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:padding="5dp">
+
         <ScrollView
+            android:id="@+id/addEventScrollViewId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/addEventScrollViewId">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/addEventButtonId">
+
             <LinearLayout
                 android:id="@+id/addEventLayoutId"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
         </ScrollView>
         <Button
             android:layout_width="wrap_content"
