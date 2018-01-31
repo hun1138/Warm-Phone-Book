@@ -11,13 +11,20 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 public class MemberLayoutActivity extends AppCompatActivity {
 
     private PersonInfo personInfoTemp;
 
+    private AdView mAdView;
+
     private TextView name;
     private TextView phoneNumber;
-    private TextView dayCount;
+    private TextView callDay;
+    private TextView recentCallDay;
 
     private Button callButton;
     private Button textButton;
@@ -30,11 +37,14 @@ public class MemberLayoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_layout);
 
+        adViewStart();
+
         personInfoTemp = (PersonInfo)getIntent().getSerializableExtra("PersonInfo");
 
         name = (TextView)findViewById(R.id.nameId);
         phoneNumber = (TextView)findViewById(R.id.phoneNumberId);
-        dayCount = (TextView)findViewById(R.id.dayCountId);
+        callDay = (TextView)findViewById(R.id.callDayId);
+        recentCallDay = (TextView)findViewById(R.id.recentCallDayId);
 
         eventLayout = (LinearLayout)findViewById(R.id.addEventLayoutId);
 
@@ -65,7 +75,18 @@ public class MemberLayoutActivity extends AppCompatActivity {
 
         name.setText(personInfoTemp.getName());
         phoneNumber.setText(personInfoTemp.getPhoneNumber());
-        dayCount.setText(personInfoTemp.getCallDday());
+        callDay.setText(personInfoTemp.getCallDday());
+        recentCallDay.setText(personInfoTemp.getRecentCallDay());
+    }
+
+
+    private void adViewStart() {
+        //MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
+        mAdView = (AdView)findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
     }
 
     private void addEventText() {

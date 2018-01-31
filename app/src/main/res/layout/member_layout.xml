@@ -20,30 +20,45 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="장광남"
             android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:id="@+id/nameId"
             style="@style/nameFontStyle"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="010-1111-1111"
-            android:textAlignment="center"
+            android:layout_below="@id/nameId"
+            android:layout_centerHorizontal="true"
             android:id="@+id/phoneNumberId"/>
-        <TextView
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2018/01/01 365일전"
-            android:textAlignment="center"
-            android:id="@+id/dayCountId"/>
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/phoneNumberId">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="2018/01/01"
+                android:textAlignment="center"
+                android:id="@+id/recentCallDayId" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="365일전"
+                android:id="@+id/callDayId"
+                android:layout_toRightOf="@id/recentCallDayId"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,24 +87,29 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:padding="5dp">
+
         <ScrollView
+            android:id="@+id/addEventScrollViewId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/addEventScrollViewId">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/addEventButtonId">
+
             <LinearLayout
                 android:id="@+id/addEventLayoutId"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
         </ScrollView>
+
         <Button
+            android:id="@+id/addEventButtonId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addEventButtonId"
-            android:text="일정 추가"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_above="@+id/ad_layout_id"
+            android:layout_centerHorizontal="true"
+            android:text="일정 추가" />
+        <include layout="@layout/ad_layout"
+            android:id="@+id/ad_layout_id"/>
     </RelativeLayout>
 
 </LinearLayout>
