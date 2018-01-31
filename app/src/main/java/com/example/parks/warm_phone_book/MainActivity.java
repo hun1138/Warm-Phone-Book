@@ -54,16 +54,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 */
     private LinearLayout minMemberList; // min member layout
-
     ArrayList<PersonInfo> personInfos; // person data
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1; //0은 수락 , 1은 거절
-    //private static String[] PERMISSION_STORAGE = {Manifest.permission.READ_CONTACTS};
     private static String PERMISSION_READ_CONTACTS = Manifest.permission.READ_CONTACTS;
     private static String PERMISSION_CALL_LOG = Manifest.permission.READ_CALL_LOG;
     private static String[] PERMISSION_STORAGE = {PERMISSION_READ_CONTACTS, PERMISSION_CALL_LOG};
-
-    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
 
-        //PersonInfo 데이터
-        dbHelper = new DBHelper(this);
-
-        personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,11 +82,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() { // 초기화
-        Log.i("Phone_Number", "Into");
         GetContactIntoArrayList();
         makeMinMemeberLayout();
-        Log.i("Phone_Number", "End");
-
         /*
         recyclerView.setHasFixedSize(true);
 
@@ -158,38 +146,30 @@ public class MainActivity extends AppCompatActivity {
             int UserId = cursor.getInt((cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)));
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
-            //Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
-            //String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
-            //Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
-            // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
-            //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
+
+                //int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+                //Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
+                //String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
+                //Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);
+                // PersonInfo class에 데이터를 저장후 리스트로 관리(추후 함수로 구현)
+                //PersonInfo personInfoTemp = new PersonInfo(0, name, phoneNumber, "", "", "", "", "", "");
+
             PersonInfo personInfoTemp = new PersonInfo();
             personInfoTemp.setId(UserId);
             personInfoTemp.setName(name);
             personInfoTemp.setPhoneNumber(phoneNumber);
-            //personInfos 에 dDay 넣기
+
             try{
                 Cursor callCursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, CallLog.Calls.NUMBER + "=?",
                         new String[]{String.valueOf(phoneNumber)}, "date DESC LIMIT 1");
                 while(callCursor != null && callCursor.moveToNext()){
                     Long callTime = Long.valueOf(callCursor.getString(callCursor.getColumnIndex(CallLog.Calls.DATE)));
 
-                    String date = callTime.toString();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
                     Date dDate = new Date(callTime);
                     String today = format.format(dDate);
                     personInfoTemp.setRecentCallDay(today);
-                    /*
-                    String dateString = callTime.toString();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    Date dDate = new Date(format.parse(dateString).toString());
-                    Log.i("test", dDate.toString());
-                    */
-
-                    //Date callDate = new Date(callTime);
-                    //personInfoTemp.setCallDday(callDate.toString());
                     String diffDay = diffOfDate(callTime);
                     personInfoTemp.setCallDday(diffDay);
                 }
@@ -328,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //>>: 수정 요망
     public static String diffOfDate(Long callTime)throws Exception{
         Long currentTime = System.currentTimeMillis();
         Long diffTime = (currentTime - callTime) / (24*60*60*1000);
