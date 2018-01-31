@@ -77,6 +77,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    //>>: Callday Update구문 (어플실행될떄)
+    public void fixedUserCallday(int id, String callday){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_DATE, callday);
+
+        db.update(CONTACT_TABLE, values,KEY_ID + "=?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
+
     //>> : 생일 업데이트 구문
     public void addUserBirthDay(int id, String date){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -101,6 +112,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    //>>: 생일 날짜 수정
+    public void fixedUserBirthDay(int id, String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_BIRTHDAY, date);
+
+        db.update(CONTACT_TABLE, values, KEY_ID + "=?",
+                new String[] {String.valueOf(id)});
+        db.close();
+    }
     //>>: 전화한 날짜 id값으로 검색하는 구문
     public String findUserCallday(int id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -125,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor.getString(0);
     }
 
-    //>> : 일정표 추가 구문
+    //>> : 일정표 추가 구문 (일정 추가 버튼)
     public void addCalenderDB(PersonInfo info, CalendarInfo calendarInfo){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -155,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    //>>: 일정표를 id값으로 검색하는 구문
+    //>>: 일정표를 id값으로 검색하는 구문(사람클릭시 화면전환될때)
     public ArrayList<CalendarInfo> findCalendars(int id){
         ArrayList<CalendarInfo> calendarInfos = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

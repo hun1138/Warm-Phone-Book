@@ -107,11 +107,14 @@ public class MemberLayoutActivity extends AppCompatActivity {
 
     private void ClickCall(String phoneNumber){
         //전화번호 가지고 있는 String을 보내는 함수 ?
-        Intent callintent =new Intent(Intent.ACTION_DIAL);
+        Intent callintent =new Intent(Intent.ACTION_CALL);
         callintent.setData(Uri.parse("tel:"+phoneNumber));
         try{
             startActivity(callintent);
-        }catch (Exception e){
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
