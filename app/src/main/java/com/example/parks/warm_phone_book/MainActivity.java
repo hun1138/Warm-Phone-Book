@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void adViewStart() {
-        MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
+        //MobileAds.initialize(this, getString(R.string.banner_ad_unit_id));
         mAdView = (AdView)findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)

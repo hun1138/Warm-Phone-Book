@@ -100,13 +100,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"></LinearLayout>
         </ScrollView>
+
         <Button
+            android:id="@+id/addEventButtonId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addEventButtonId"
-            android:text="일정 추가"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_above="@+id/ad_layout_id"
+            android:layout_centerHorizontal="true"
+            android:text="일정 추가" />
+        <include layout="@layout/ad_layout"
+            android:id="@+id/ad_layout_id"/>
     </RelativeLayout>
 
 </LinearLayout>
