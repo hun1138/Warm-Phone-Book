@@ -77,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
         adViewStart();
 
         minMemberList = (LinearLayout) findViewById(R.id.minMemberListId);
-
+        personInfos = new ArrayList<PersonInfo>();
         CheckPermission();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                //int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+            int UserKey = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
                 //Log.i("DisPlayName PhoneNumber" , name + " : " + phoneNumber);
                 //String lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)); //룩업 키
                 //Uri contactUri = ContactsContract.Contacts.getLookupUri(UserId, lookupKey);

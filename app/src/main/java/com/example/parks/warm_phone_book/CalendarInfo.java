@@ -18,10 +18,6 @@ public class CalendarInfo {
     }
 
     CalendarInfo(){
-        this.date = null;
-        this.time = null;
-        this.place = null;
-        this.memo = null;
     }
 
     public void setDate(String date){
